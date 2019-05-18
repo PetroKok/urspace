@@ -16,9 +16,7 @@
     "laravel/tinker": "^1.0",
     "nesbot/carbon": "2.17.0",
     "predis/predis": "^1.1",
-    "barryvdh/laravel-debugbar": "^3.2",
-    "ext-json": "*",
-    "ext-http": "*"
+    "barryvdh/laravel-debugbar": "^3.2"
   },
   "require-dev": {
     "beyondcode/laravel-dump-server": "^1.0",
