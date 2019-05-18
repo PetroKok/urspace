@@ -16,6 +16,9 @@ class FilesSend extends Mailable
      *
      * @return void
      */
+
+
+
     public $data;
     public $files;
     public $msg;
