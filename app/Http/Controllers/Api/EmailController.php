@@ -12,7 +12,7 @@ class EmailController extends Controller
     public function send(Request $request)
     {
 
-        $email = $request->email || 'kokpetro15@gmail.com';
+        $email = 'kokpetro15@gmail.com';
 
         $data = $request->all();
 
