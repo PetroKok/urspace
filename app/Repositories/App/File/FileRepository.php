@@ -24,7 +24,7 @@ class FileRepository extends ModelRepository
             $info_files[$key]['name'] = $item->getClientOriginalName();
             $info_files[$key]['src'] = $item->getClientOriginalName();
             $info_files[$key]['type'] = $item->getClientMimeType();
-            $info_files[$key]['size'] = $item->getMaxFilesize();
+            $info_files[$key]['size'] = $item->getSize();
             $info_files[$key]['user_id'] = $u;
             $item->storeAs('/public/'.$u, $info_files[$key]['name']);
         }

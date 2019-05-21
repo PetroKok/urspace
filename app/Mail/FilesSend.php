@@ -17,8 +17,6 @@ class FilesSend extends Mailable
      * @return void
      */
 
-
-
     public $data;
     public $files;
     public $msg;
@@ -38,7 +36,6 @@ class FilesSend extends Mailable
     public function build()
     {
         $email = $this->view('email.files_send');
-        // $attachments is an array with file paths of attachments
         foreach($this->files as $file){
             $email->attach(storage_path($file));
         }
