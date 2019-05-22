@@ -12,7 +12,7 @@ class FileRepository extends ModelRepository
 
     public function index()
     {
-        return Auth::user()->files;
+        return Auth::user()->files()->orderBy('updated_at', 'desc')->get();
     }
 
     public function store(array $data)
