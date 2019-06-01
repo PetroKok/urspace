@@ -8,6 +8,7 @@ import routes from "../../helpers/routes_urls";
 import {AuthRoute} from "../../common/AuthRoute";
 import {Loader} from "../../common/Loader";
 import Modal from "../../common/Modal";
+import {NotificationContainer, NotificationManager} from "react-notifications";
 
 export default class Auth extends Component {
 
@@ -39,14 +40,18 @@ export default class Auth extends Component {
 
         axios.post(api.LOGIN, formData)
             .then(res => {
-                localStorage.setItem('token', res.data.token);
-                window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.token;
-                window.location = routes.PROFILE;
-                this.setState({processing: false});
+                if(!res.data.error){
+                    localStorage.setItem('token', res.data.token);
+                    window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.token;
+                    window.location = routes.PROFILE;
+                    this.setState({processing: false});
+                } else{
+                    this.setState({processing: false});
+                }
             })
             .catch(err => {
                 this.setState({processing: false});
-                alert(err);
+                NotificationManager.error('Error message', 'Some error on server side', 5000);
                 console.log(err);
             });
     }
@@ -66,8 +71,8 @@ export default class Auth extends Component {
                 this.setState({processing: false});
             })
             .catch(err => {
+                NotificationManager.error('Error message', err, 5000);
                 this.setState({processing: false});
-                alert(err);
                 console.log(err);
             });
     }
@@ -91,6 +96,7 @@ export default class Auth extends Component {
 
                     <AuthRoute path='/login' render={() => <Login onSubmitForm={this.onSubmitFormLogin}/>}/>
                     <AuthRoute path='/register' render={() => <Register onSubmitForm={this.onSubmitFormRegister}/>}/>
+                    <NotificationContainer/>
                 </div>
             )
     }

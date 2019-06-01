@@ -55,12 +55,12 @@ class AuthController extends Controller
                 $response = ['token' => $token, "user" => $user];
                 return response($response, 200);
             } else {
-                $response = "Password missmatch";
-                return response($response, 422);
+                $response = ['message' => "Password mismatch!", 'error' => true];
+                return response($response, 200);
             }
         } else {
-            $response = 'User does not exist';
-            return response($response, 422);
+            $response = ['message' => "User doesn't exist!", 'error' => true];
+            return response($response, 200);
         }
 
     }

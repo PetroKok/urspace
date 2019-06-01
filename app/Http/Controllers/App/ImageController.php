@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 
 class ImageController extends Controller
@@ -20,6 +21,7 @@ class ImageController extends Controller
             if ($access !== []) {
                 $user = User::find($access['user_id']);
                 $file = $user->files()->where('src', $slug)->first();
+//                return Storage::exists('app/public/' .$user->id . "/{$slug}");
                 if ($file) {
                     $fullpath = $user->id . "/{$slug}";
                     try {

@@ -9,7 +9,7 @@ export default class ModalLoader extends React.Component{
     }
 
     componentWillUnmount() {
-        document.body.removeChild(this.root);
+        // document.body.removeChild(this.root);
     }
 
     render() {

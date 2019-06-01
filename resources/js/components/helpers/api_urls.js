@@ -12,5 +12,5 @@ export default {
     FILES_DELETE: "/api/files/remove",
     FILES_SEND_EMAIL: "/api/files/send_email",
     FILES_SET_ACCESS: "/api/files/set_access",
-    FILES_DOWNLOAD: "/api/files/download",
+    FILES_DOWNLOAD: "/api/download/",
 }

@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/download/{slug}', 'DownloadController@index');
+
 Route::group(['middleware' => ['json.response']], function () {
 
     // PUBLIC ROUTES

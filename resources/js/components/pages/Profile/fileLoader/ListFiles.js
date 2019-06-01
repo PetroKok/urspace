@@ -1,5 +1,6 @@
 import React from 'react'
-import routes_urls from "../../../helpers/routes_urls";
+import PreviewFile from "../../../common/PreviewFile";
+
 
 export default class ListFiles extends React.Component {
     constructor(props) {
@@ -17,8 +18,9 @@ export default class ListFiles extends React.Component {
                                     <input type="checkbox" onChange={() => this.props.onCheck(file.id)}/>
                                     <span className="checkmark"/>
                                 </label>
-                                <img src={routes_urls.IMAGE+file.src} alt="" height="25" className="mr-3"/>
-                                <a href={`${file.src}`}>{file.name}</a>
+
+                                <PreviewFile file={file}/>
+
                                 <div className="dropdown mr-1 float-right dropleft">
                                     <button type="button" className="btn btn-padding-unset btn-success" id={key} data-toggle="dropdown"
                                             aria-haspopup="true"

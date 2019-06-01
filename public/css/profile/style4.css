@@ -282,7 +282,7 @@ a.article:hover {
     #sidebarCollapse span {
         display: none;
     }
-}
+    }
 
 .dropdown-toggle > svg {
     width: 2em;
@@ -479,4 +479,27 @@ div.loader img {
     margin: auto;
     height: 1px;
     background-color: #ffffff40;
+}
+
+.modal-email-window{
+    position: absolute;
+    z-index: 1;
+    top: 10%;
+    right: 5%;
+    padding: 25px 50px;
+    background-color: #6d7fcc;
+    border-radius: 3px;
+}
+.modal-email-window input{
+    width: 100%;
+    padding: 5px 10px;
+    border: none;
+    background-color: white;
+}
+
+
+.custom-fa{
+    height: 22px;
+    width: 17px!important;
+    margin-bottom: -6px;
 }

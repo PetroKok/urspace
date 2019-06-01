@@ -12,7 +12,11 @@ class EmailController extends Controller
     public function send(Request $request)
     {
 
-        $email = 'kokpetro15@gmail.com';
+        $this->validate($request, [
+           'email' => 'required'
+        ]);
+
+        $email = $request->email;
 
         $data = $request->all();
 
