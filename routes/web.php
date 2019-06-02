@@ -6,6 +6,7 @@ Route::post('/signature/download/{slug}', 'RemoteAccessController@download');
 Route::post('/signature/upload', 'RemoteAccessController@upload');
 
 Route::get('/image/{slug}', 'ImageController@index');
+Route::get('/file/{slug}', 'ImageController@file');
 
 Route::get('/{path?}', [
     'uses' => 'ReactController@show',

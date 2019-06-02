@@ -5,4 +5,5 @@ export default {
     HOME: "/",
     FILES: "/files",
     IMAGE: "/image/",
+    FILE: "/file/",
 }

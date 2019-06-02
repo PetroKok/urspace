@@ -1,6 +1,8 @@
-import React from 'react'
+import React from 'react';
 import routes_urls from "../helpers/routes_urls";
-import ModalImage from 'react-modal-image'
+import ModalImage from 'react-modal-image';
+import FileViewer from 'react-file-viewer';
+import FileViewComponent from '../common/FileViewComponent'
 
 export default class PreviewFile extends React.Component {
     constructor(props) {
@@ -27,6 +29,10 @@ export default class PreviewFile extends React.Component {
                     type: 'audio',
                     icon: 'fa-file-audio'
                 },
+                {
+                    type: 'pdf',
+                    icon: 'fa-file-pdf'
+                },
             ]
         };
     }
@@ -52,12 +58,11 @@ export default class PreviewFile extends React.Component {
                 </span>
             );
         }
-        ;
 
         this.state.types.map((item, key) => {
-            file.type.includes(item.type) ? pictureTag = <i className={`fas ${item.icon} custom-fa`}/> : null;
-            file.type.includes(item.type) ? preview =
-                <a href={`${file.src}`} className="ml-3">{file.name}</a> : defaultPreview;
+            if (file.type.includes(item.type)) {
+                pictureTag = <FileViewComponent icon={item.icon} file={file}/>
+            }
         });
 
         return pictureTag === undefined ? (
@@ -65,12 +70,7 @@ export default class PreviewFile extends React.Component {
                 <i className="fas fa-file custom-fa"/>
                 <a href="#" className="ml-3">{file.name}</a>
             </span>
-        ) : (
-            <span>
-                {pictureTag}
-                {preview}
-            </span>
-        );
+        ) : pictureTag;
 
     }
 }

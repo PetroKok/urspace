@@ -5,6 +5,7 @@ import ListFiles from "./ListFiles";
 import _ from 'lodash';
 import ModalLoader from "../../../common/ModalLoader";
 import ModalEmail from "../../../common/ModalEmail";
+import ModalAccess from "../../../common/ModalAccess";
 
 import {Loader} from "../../../common/Loader";
 import {NotificationContainer, NotificationManager} from 'react-notifications';
@@ -33,13 +34,16 @@ export default class FileLoader extends React.Component {
         this.getFiles = this.getFiles.bind(this);
         this.openEmailModal = this.openEmailModal.bind(this);
         this.downloadFile = this.downloadFile.bind(this);
-        this.accessFiles = this.accessFiles.bind(this);
+        this.sendAccessFiles = this.sendAccessFiles.bind(this);
         this.deleteFile = this.deleteFile.bind(this);
         this.deleteFiles = this.deleteFiles.bind(this);
         this.uploadFiles = this.uploadFiles.bind(this);
         this.sendEmailFiles = this.sendEmailFiles.bind(this);
         this.closeEmailModal = this.closeEmailModal.bind(this);
         this.onCheckInput = this.onCheckInput.bind(this);
+        this.sendOneFile = this.sendOneFile.bind(this);
+        this.accessOneFile = this.accessOneFile.bind(this);
+        this.accessMoreFile = this.accessMoreFile.bind(this);
     }
 
     openEmailModal() {
@@ -48,25 +52,45 @@ export default class FileLoader extends React.Component {
 
     closeEmailModal() {
         this.setState({emailModal: false})
+        this.setState({accessModal: false})
     }
 
-    accessFiles() {
+    sendOneFile(file) {
+        this.setState({checked_items: [file.id]});
+        this.setState({emailModal: true});
+    }
+
+    accessOneFile(file) {
+        this.setState({checked_items: [file.id]});
+        this.setState({accessModal: true})
+    }
+
+    accessMoreFile(file) {
+        this.setState({accessModal: true})
+    }
+
+    sendAccessFiles(email, date) {
         let files = this.state.checked_items;
 
-        this.setState({checked_items: [], emailModal: false});
-        NotificationManager.info('Info message', "Files prepearing to send to " + email, 5000);
+        this.setState({accessModal: false});
+
+        NotificationManager.info('Info message', "Files prepearing to get access for " + email, 5000);
+
+        console.log(files);
 
         $('input[type="checkbox"]').prop('checked', false);
 
         let data = new FormData();
         data.append('email', email);
+        data.append('time_to', date);
         files.map((file) => {
             data.append('files[]', file);
         });
 
-        axios().post(api_urls.FILES_SEND_EMAIL, data)
+        this.setState({checked_items: []});
+
+        axios().post(api_urls.FILES_SET_ACCESS, data)
             .then(res => {
-                this.setState({processing: false, checked_items: []});
                 NotificationManager.success('Success message', res.data.message, 7000);
             })
             .catch(err => console.log(err))
@@ -75,6 +99,8 @@ export default class FileLoader extends React.Component {
     sendEmailFiles(email) {
         let files = this.state.checked_items;
 
+        console.log(files);
+
         this.setState({checked_items: [], emailModal: false});
         NotificationManager.info('Info message', "Files prepearing to send to " + email, 5000);
 
@@ -86,6 +112,7 @@ export default class FileLoader extends React.Component {
             data.append('files[]', file);
         });
 
+        this.setState({checked_items: []});
         axios().post(api_urls.FILES_SEND_EMAIL, data)
             .then(res => {
                 this.setState({processing: false, checked_items: []});
@@ -228,8 +255,7 @@ export default class FileLoader extends React.Component {
                                     {/* float right */}
                                     <DeleteButton data={this.state.checked_items} onDelete={this.deleteFiles}/>
                                     <EmailButton data={this.state.checked_items} onEmail={this.openEmailModal}/>
-                                    <AccessButton data={this.state.checked_items} onAccess={this.accessFiles}/>
-
+                                    <AccessButton data={this.state.checked_items} onAccess={this.accessMoreFile}/>
 
                                 </div>
                             </form>
@@ -237,9 +263,9 @@ export default class FileLoader extends React.Component {
                     </div>
                     {this.state.processing && <ModalLoader/>}
                     {this.state.emailModal && <ModalEmail close={this.closeEmailModal} click={this.sendEmailFiles}/>}
-                    {/*{this.state.accessFor && <ModalAccess close={this.closeAccessModal} click={this.sendEmailFiles}/>}*/}
+                    {this.state.accessModal && <ModalAccess close={this.closeEmailModal} click={this.sendAccessFiles}/>}
                     {this.state.items
-                    && <ListFiles files={this.state.items} delete={this.deleteFile} download={this.downloadFile}
+                    && <ListFiles files={this.state.items} delete={this.deleteFile} sendOneFile={this.sendOneFile} accessOneFile={this.accessOneFile} download={this.downloadFile}
                                   onCheck={this.onCheckInput}/>
                     || <Loader/>}
                 </div>

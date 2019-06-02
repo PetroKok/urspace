@@ -46,6 +46,7 @@
   "dependencies": {
     "babel-preset-react": "^6.24.1",
     "js-file-download": "^0.4.5",
+    "react-file-viewer": "^1.1.0",
     "react-modal-image": "^2.3.2",
     "react-notifications": "^1.4.3",
     "react-router-dom": "^5.0.0"

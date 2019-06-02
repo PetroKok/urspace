@@ -55,6 +55,9 @@ class User extends Authenticatable
         return $this->hasMany(AccessAPI::class);
     }
 
+    public function accessed_files(){
+        return $this->hasMany(UserAccessFiles::class);
+    }
     /** END RELATIONSHIP **/
 
 

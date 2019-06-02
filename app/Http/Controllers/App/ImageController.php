@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\App;
 
+use App\Models\File;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -37,6 +38,15 @@ class ImageController extends Controller
             }
         } else {
             return abort(404);
+        }
+    }
+
+    public function file(Request $request, $slug)
+    {
+        $file = File::where('src', $slug)->first();
+        if ($file){
+            $fullpath = $file->user_id . "/{$file->src}";
+            return response()->download(storage_path('app/public/' . $fullpath), null, [], null);
         }
     }
 }
