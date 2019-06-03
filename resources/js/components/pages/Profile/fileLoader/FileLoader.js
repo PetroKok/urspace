@@ -205,13 +205,13 @@ export default class FileLoader extends React.Component {
             this.setState({processing: true});
             this.setState({btn: true}, () => console.log());
             let data = new FormData();
-            console.log('files: ', files)
             files.map((file, key) => {
                 data.append('files[]', file);
             });
             axios().post(api_urls.FILES_UPLOAD, data)
                 .then(res => {
                     if (res.data.files.length >= 1) {
+                        console.log('files: ', files);
                         console.log('1 line');
                         let items = res.data.files;
                         console.log('2 line');
