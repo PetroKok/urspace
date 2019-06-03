@@ -3,8 +3,10 @@
 /public/hot
 /public/storage
 /vendor
+/res
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+/resources/views/app/layouts
