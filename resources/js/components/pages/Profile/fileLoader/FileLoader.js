@@ -192,7 +192,7 @@ export default class FileLoader extends React.Component {
     }
 
     getFiles(e) {
-        console.log(e);
+        console.log(e.target.files);
         this.setState({files: Array.from(e.target.files)});
     }
 
