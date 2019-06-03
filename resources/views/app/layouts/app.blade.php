@@ -18,8 +18,8 @@
     @stack('styles')
 </head>
 <body>
-    <div id="root"></div>
-    @yield('content')
+<div id="root"></div>
+@yield('content')
 </body>
 @stack('scripts')
 </html>

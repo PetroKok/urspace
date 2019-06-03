@@ -205,6 +205,7 @@ export default class FileLoader extends React.Component {
             this.setState({processing: true});
             this.setState({btn: true}, () => console.log());
             let data = new FormData();
+            console.log('files: ', files)
             files.map((file, key) => {
                 data.append('files[]', file);
             });
