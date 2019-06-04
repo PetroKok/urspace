@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
 import {Route, Switch, Link} from 'react-router-dom';
-import axios from '../../common/axios'
 import {ProfileLayout} from "../../layouts/ProfileLayout";
-import {SideBar} from "./SideBar";
+import {SideBar} from "./comps/SideBar";
 import {Content} from "./Content";
+import Profile_Home from './pages/Profile_Home'
+import Profile_Access_Files from './pages/Profile_Access_Files'
+
 
 import Settings from "./settings/Settings";
 import FileLoader from "./fileLoader/FileLoader";
-import api from "../../helpers/api_urls";
 
 
 class Home extends Component {
@@ -24,7 +25,8 @@ class Home extends Component {
                 <SideBar/>
                 <Content>
                     <Switch>
-                        <Route path="/profile" exact component={FileLoader}/>
+                        <Route path="/profile" exact component={Profile_Home}/>
+                        <Route path="/profile/file-access" exact component={Profile_Access_Files}/>
                         <Route path="/profile/settings" component={Settings}/>
                     </Switch>
                 </Content>

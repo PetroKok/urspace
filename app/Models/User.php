@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -55,8 +56,9 @@ class User extends Authenticatable
         return $this->hasMany(AccessAPI::class);
     }
 
-    public function accessed_files(){
-        return $this->hasMany(UserAccessFiles::class);
+
+    public function file(){
+        return $this->belongsToMany(File::class)->wherePivot('time_to', '>=', Carbon::now());
     }
     /** END RELATIONSHIP **/
 

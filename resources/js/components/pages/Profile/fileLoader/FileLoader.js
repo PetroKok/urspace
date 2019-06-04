@@ -31,6 +31,7 @@ export default class FileLoader extends React.Component {
             btn: false,
             checked_items: []
         };
+
         this.getFiles = this.getFiles.bind(this);
         this.openEmailModal = this.openEmailModal.bind(this);
         this.downloadFile = this.downloadFile.bind(this);
@@ -44,6 +45,14 @@ export default class FileLoader extends React.Component {
         this.sendOneFile = this.sendOneFile.bind(this);
         this.accessOneFile = this.accessOneFile.bind(this);
         this.accessMoreFile = this.accessMoreFile.bind(this);
+    }
+
+
+    componentWillReceiveProps(props){
+        if(this.state.items === null){
+            console.log(props.files);
+            this.setState({items: props.files})
+        }
     }
 
     openEmailModal() {
@@ -183,14 +192,6 @@ export default class FileLoader extends React.Component {
         }
     }
 
-    componentDidMount() {
-        axios().post(api_urls.FILES)
-            .then(res => {
-                this.setState({items: res.data})
-            })
-            .catch(err => console.log(err))
-    }
-
     getFiles(e) {
         console.log(e.target.files);
         this.setState({files: Array.from(e.target.files)});
@@ -211,23 +212,15 @@ export default class FileLoader extends React.Component {
             axios().post(api_urls.FILES_UPLOAD, data)
                 .then(res => {
                     if (res.data.files.length >= 1) {
-                        console.log('files: ', files);
-                        console.log('1 line');
                         let items = res.data.files;
-                        console.log('2 line');
                         $('input[type="checkbox"]').prop('checked', false);
-                        console.log('3 line');
                         const resultDataItems = _.unionBy(items, this.state.items, "id");
-                        console.log(resultDataItems);
-                        this.setState({items: resultDataItems}, () => {
-                            console.log(this.state.items);
-                        });
+                        this.setState({items: resultDataItems});
                         this.setState({
                             btn: false,
                             processing: false,
                             files: null
                         });
-                        console.log('4 line');
                         NotificationManager.success('Success message', 'Uploaded files', 5000);
                     } else {
                         this.setState({btn: false, processing: false});
@@ -251,13 +244,13 @@ export default class FileLoader extends React.Component {
                         <div className="col-md-12">
                             <form>
                                 <div className="form-group files color">
-                                    <AddFilesButton getFiles={this.getFiles}/>
+                                    {this.props.accessed ? null : <AddFilesButton getFiles={this.getFiles}/>}
                                     <UploadFilesButton files={this.state.files} onUpload={this.uploadFiles}/>
 
                                     {/* float right */}
-                                    <DeleteButton data={this.state.checked_items} onDelete={this.deleteFiles}/>
+                                    {this.props.accessed ? null : <DeleteButton data={this.state.checked_items} onDelete={this.deleteFiles}/>}
                                     <EmailButton data={this.state.checked_items} onEmail={this.openEmailModal}/>
-                                    <AccessButton data={this.state.checked_items} onAccess={this.accessMoreFile}/>
+                                    {this.props.accessed ? null : <AccessButton data={this.state.checked_items} onAccess={this.accessMoreFile}/>}
 
                                 </div>
                             </form>
@@ -267,12 +260,11 @@ export default class FileLoader extends React.Component {
                     {this.state.emailModal && <ModalEmail close={this.closeEmailModal} click={this.sendEmailFiles}/>}
                     {this.state.accessModal && <ModalAccess close={this.closeEmailModal} click={this.sendAccessFiles}/>}
                     {this.state.items
-                    && <ListFiles files={this.state.items} delete={this.deleteFile} sendOneFile={this.sendOneFile} accessOneFile={this.accessOneFile} download={this.downloadFile}
-                                  onCheck={this.onCheckInput}/>
+                    && <ListFiles accessed={this.props.accessed} files={this.state.items} delete={this.deleteFile} sendOneFile={this.sendOneFile} accessOneFile={this.accessOneFile} download={this.downloadFile} onCheck={this.onCheckInput}/>
                     || <Loader/>}
+
                 </div>
                 <NotificationContainer/>
-
             </div>
         );
     }

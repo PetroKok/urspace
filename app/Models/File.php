@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,7 +16,7 @@ class File extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+       $this->belongsToMany(User::class)->wherePivot('time_to', '>=', Carbon::now());
     }
 
     public function getLinkAttribute()

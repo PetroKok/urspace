@@ -28,7 +28,17 @@ class DownloadController extends Controller
                         return abort(404);
                     }
                 } else {
-                    return abort(404);
+                    $file = $user->file()->where('src', $slug)->first();
+                    if ($file) {
+                        $fullpath = $file->user_id . "/" . $slug;
+                        try {
+                            return Response::download(Storage::path('public/'.$fullpath));
+                        } catch (\Exception $e) {
+                            return abort(404);
+                        }
+                    } else {
+                        return abort(404);
+                    }
                 }
             } else {
                 return abort(404);

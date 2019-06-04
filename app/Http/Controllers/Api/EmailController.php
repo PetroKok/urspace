@@ -16,6 +16,10 @@ class EmailController extends Controller
            'email' => 'required'
         ]);
 
+        $url = '';
+
+        $user = $request->user();
+
         $email = $request->email;
 
         $data = $request->all();
@@ -24,7 +28,18 @@ class EmailController extends Controller
 
         foreach ($data['files'] as $key => $id) {
             $file = $request->user()->files()->find($id);
-            $attachedFiles[$key] = 'app/public/' . $request->user()->id . '/' . $file->src;
+            if(!$file){
+                $file = $user->file()->find($id);
+                if(!$file){
+                    continue;
+                }else{
+                    $url = $file->user_id . '/' . $file->src;
+                }
+            }else{
+                $url = $request->user()->id . '/' . $file->src;
+            }
+
+            $attachedFiles[$key] = 'app/public/' . $url;
         }
 
         Mail::to($email)->send(new FilesSend($attachedFiles, $request->user()->name));

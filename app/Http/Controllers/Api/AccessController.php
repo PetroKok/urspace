@@ -10,28 +10,26 @@ use App\Http\Controllers\Controller;
 
 class AccessController extends Controller
 {
-    public function access(Request $request){
+    public function access(Request $request)
+    {
         $this->validate($request, [
             'files' => 'required',
             'email' => 'required',
             'time_to' => 'required',
         ]);
-
         $data = $request->all();
-
         $storing['time_to'] = $data['time_to'];
 
-        foreach($data['files'] as $file){
-            $f = File::find($file);
-            $user = User::whereEmail($data['email'])->first();
-            if($f and $user){
-                $storing['user_id'] = $user->id;
-                $storing['file_id'] = $f->id;
-                UserAccessFiles::create($storing);
-            } else{
-                return response(['status' => 200, 'message' => 'User doesn\'t exists!'],200);
-            }
+        $user = User::whereEmail($data['email'])->first();
+
+        if ($user) {
+            $sync_data = [];
+            for ($i = 0; $i < count($data['files']); $i++)
+                $sync_data[$data['files'][$i]] = ['time_to' => $data['time_to']];
+
+            $user->file()->attach($sync_data);
+            return response(['status' => 200, 'message' => 'OK!'], 200);
         }
-        return response(['status' => 200, 'message' => 'Access for user '.$data['email'].' applied'],200);
+        return response(['status' => 200, 'message' => 'User doesn\'t exists!'], 200);
     }
 }

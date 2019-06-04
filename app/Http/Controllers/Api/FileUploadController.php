@@ -64,4 +64,8 @@ class FileUploadController extends Controller
             return response(['status' => 200, 'message' => 'Deleted']);
         }
     }
+
+    public function accessed(){
+        return response(['status' => 200, 'data' => $this->model->accessed_files()], 200);
+    }
 }

@@ -4,6 +4,7 @@
 namespace App\Repositories\App\File;
 
 use App\Repositories\ModelRepository;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class FileRepository extends ModelRepository
@@ -13,6 +14,10 @@ class FileRepository extends ModelRepository
     public function index()
     {
         return Auth::user()->files()->orderBy('updated_at', 'desc')->get();
+    }
+
+    public function accessed_files(){
+        return Auth::user()->file;
     }
 
     public function store(array $data)

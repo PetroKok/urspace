@@ -6,6 +6,7 @@ export default {
     LOGOUT: "/api/user/logout",
     PROFILE_UPDATE: "/api/user/update",
     FILES: "/api/files",
+    FILES_ACCESS: "/api/files-access",
     FILES_UPLOAD: "/api/files/upload",
     FILES_GET: "/api/files/",
     FILE_DELETE_ID: "/api/files/delete/", // param is {id}
