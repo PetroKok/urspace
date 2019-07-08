@@ -541,6 +541,6 @@ div.loader img {
 span img{
     max-height: 24px!important;
 }
-span div{
+.list-group-item .line-border span div{
     display: inline;
 }
