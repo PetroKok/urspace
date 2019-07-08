@@ -3,7 +3,7 @@ import routes_urls from "../helpers/routes_urls";
 import ModalImage from 'react-modal-image';
 import FileViewer from 'react-file-viewer';
 import FileViewComponent from '../common/FileViewComponent'
-
+// sdf
 export default class PreviewFile extends React.Component {
     constructor(props) {
         super(props);

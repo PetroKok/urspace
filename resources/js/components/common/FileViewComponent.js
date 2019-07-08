@@ -15,7 +15,7 @@ export default class FileViewComponent extends Component {
     showFile() {
         this.setState({show: !this.state.show});
     }
-
+// sdf
     render() {
         const {file} = this.props;
         let fileType = file.src.split('.')[1];
