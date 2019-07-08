@@ -538,9 +538,9 @@ div.loader img {
     font-weight: bold;
     color: white;
 }
-.image-prev div img{
-    max-height: 24px!important;
+.image-prev{
+    display: inline-flex
 }
-.image-prev div{
-    display: inline;
+.image-prev > div > img{
+    max-height: 24px!important;
 }
