@@ -538,9 +538,9 @@ div.loader img {
     font-weight: bold;
     color: white;
 }
-span img{
+.image-prev img{
     max-height: 24px!important;
 }
-.list-group-item .line-border span div{
+.image-prev div{
     display: inline;
 }

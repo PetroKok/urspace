@@ -46,7 +46,7 @@ export default class PreviewFile extends React.Component {
 
         if (file.type.includes('image')) {
             return (
-                <span key={file.id}>
+                <span key={file.id} className="image-prev">
                     <ModalImage
                         id={file.id}
                         small={routes_urls.IMAGE + file.src}
