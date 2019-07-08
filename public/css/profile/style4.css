@@ -538,7 +538,7 @@ div.loader img {
     font-weight: bold;
     color: white;
 }
-.image-prev img{
+.image-prev div img{
     max-height: 24px!important;
 }
 .image-prev div{
