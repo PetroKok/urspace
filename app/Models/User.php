@@ -58,7 +58,7 @@ class User extends Authenticatable
 
 
     public function file(){
-        return $this->belongsToMany(File::class)->wherePivot('time_to', '>=', Carbon::now());
+        return $this->belongsToMany(File::class)->wherePivot('time_to', '>=', Carbon::now())->withPivot('time_to');
     }
     /** END RELATIONSHIP **/
 
