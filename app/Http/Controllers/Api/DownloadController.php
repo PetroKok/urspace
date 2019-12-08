@@ -19,7 +19,7 @@ class DownloadController extends Controller
             if ($access !== []) {
                 $user = User::find($access['user_id']);
                 $file = $user->files()->where('src', $slug)->first();
-//                return Storage::exists('app/public/' .$user->id . "/{$slug}");
+
                 if ($file) {
                     $fullpath = $user->id . "/{$slug}";
                     try {

@@ -4,6 +4,7 @@ import Login from "./Login";
 import Register from "./Register";
 import api from "../../helpers/api_urls";
 import routes from "../../helpers/routes_urls";
+import * as _ from "lodash";
 
 import {AuthRoute} from "../../common/AuthRoute";
 import {Loader} from "../../common/Loader";
@@ -17,8 +18,8 @@ export default class Auth extends Component {
         this.state = {
             processing: false,
             showModal: false,
-            errors: [],
-            arr: [{h:1,b:2}]
+            errors: null,
+            arr: [{h: 1, b: 2}]
 
         };
         this.onSubmitFormLogin = this.onSubmitFormLogin.bind(this);
@@ -27,7 +28,7 @@ export default class Auth extends Component {
         this.closeModal = this.closeModal.bind(this);
     }
 
-    closeModal(){
+    closeModal() {
         this.setState({showModal: false})
     }
 
@@ -40,19 +41,22 @@ export default class Auth extends Component {
 
         axios.post(api.LOGIN, formData)
             .then(res => {
-                if(!res.data.error){
+                if (!res.data.error) {
                     localStorage.setItem('token', res.data.token);
                     window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.token;
                     window.location = routes.PROFILE;
                     this.setState({processing: false});
-                } else{
+                } else {
                     this.setState({processing: false});
                 }
             })
             .catch(err => {
-                this.setState({processing: false});
-                NotificationManager.error('Error message', 'Some error on server side', 5000);
-                console.log(err);
+                this.setState({
+                    processing: false,
+                    showModal: true,
+                    errors: err.response.data.errors || err.response.data.message
+                });
+                console.log(typeof this.state.errors)
             });
     }
 
@@ -71,9 +75,11 @@ export default class Auth extends Component {
                 this.setState({processing: false});
             })
             .catch(err => {
-                NotificationManager.error('Error message', err, 5000);
-                this.setState({processing: false});
-                console.log(err);
+                this.setState({
+                    processing: false,
+                    showModal: true,
+                    errors: err.response.data.errors || err.response.data.message
+                });
             });
     }
 
@@ -88,11 +94,20 @@ export default class Auth extends Component {
                         <Link className="btn btn-primary" to="/register">Register</Link>
                     </div>
 
-                    {this.state.showModal && this.state.errors &&
-                        <Modal onClose={this.closeModal} data={this.state.arr}>
-                            <h2>TEXT</h2>
-                        </Modal>
-                    }
+                    {this.state.showModal && typeof this.state.errors === "string" && (
+                        <div className="alert alert-danger mt-4" role="alert">
+                           {this.state.errors}
+                        </div>
+                    )}
+
+                    {(
+                        this.state.showModal && typeof this.state.errors === "object" && this.state.errors.length !== 0 &&
+                        _.map(this.state.errors, (item, i) => (
+                            <div className="alert alert-danger mt-4" key={i} role="alert">
+                                {item}
+                            </div>
+                        ))
+                    )}
 
                     <AuthRoute path='/login' render={() => <Login onSubmitForm={this.onSubmitFormLogin}/>}/>
                     <AuthRoute path='/register' render={() => <Register onSubmitForm={this.onSubmitFormRegister}/>}/>

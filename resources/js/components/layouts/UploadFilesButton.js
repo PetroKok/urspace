@@ -7,6 +7,6 @@ export const UploadFilesButton = props => {
                    onClick={e => props.onUpload(e)}>
                 <i className="fas fa-upload"/>
             </label>
-        )
+        ) || (<span></span>)
     );
 };

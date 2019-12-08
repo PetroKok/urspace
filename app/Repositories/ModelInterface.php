@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 interface ModelInterface
 {
+    public function model();
     public function index();
     public function store(array $data);
     public function update(array $data, Model $model);

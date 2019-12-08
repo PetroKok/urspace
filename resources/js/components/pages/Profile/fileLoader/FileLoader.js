@@ -198,13 +198,15 @@ export default class FileLoader extends React.Component {
     }
 
     uploadFiles(e) {
+        console.log("FILES")
         e.preventDefault();
 
         let files = this.state.files;
 
-        if (this.state.files && files.length !== 0) {
-            this.setState({processing: true});
-            this.setState({btn: true}, () => console.log());
+        console.log(files)
+
+        if (files && files.length !== 0) {
+            this.setState({btn: true, processing: true});
             let data = new FormData();
             files.map((file, key) => {
                 data.append('files[]', file);
@@ -215,24 +217,30 @@ export default class FileLoader extends React.Component {
                         let items = res.data.files;
                         $('input[type="checkbox"]').prop('checked', false);
                         const resultDataItems = _.unionBy(items, this.state.items, "id");
-                        this.setState({items: resultDataItems});
                         this.setState({
-                            btn: false,
-                            processing: false,
-                            files: null
+                            items: resultDataItems,
                         });
                         NotificationManager.success('Success message', 'Uploaded files', 5000);
                     } else {
-                        this.setState({btn: false, processing: false});
                         NotificationManager.error('Error message', 'HERE IS NOT FILES IN RESPONSE!', 5000);
                     }
+                    this.setState({
+                        btn: false,
+                        processing: false,
+                        files: null
+                    });
                 })
                 .catch(err => {
                     console.log('error in catch');
                     console.log(err);
-                    this.setState({btn: false, processing: false});
+                    this.setState({
+                        btn: false,
+                        processing: false,
+                        files: null
+                    });
                 });
-            e.target.value = null;
+
+            e.target.value = {};
         }
     }
 

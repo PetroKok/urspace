@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -11,14 +13,12 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    public function register(RegisterRequest $request)
     {
-
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-        ]);
 
         if ($validator->fails()) {
             return response(['errors' => $validator->errors()->all()], 422);
@@ -27,7 +27,7 @@ class AuthController extends Controller
         $request['password'] = Hash::make($request['password']);
         $user = User::create($request->toArray());
         $user->createAccessAPI()->create([
-            'token' => uniqid('kok', true),
+            'token' => uniqid('kok_and_derk', true),
             'revoked' => '0',
         ]);
 
@@ -36,10 +36,14 @@ class AuthController extends Controller
         Cookie::queue(Cookie::make('token', $token, 60*24*30));
 
         return response($response, 200);
-
     }
 
-    public function login(Request $request)
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function login(LoginRequest $request)
     {
         $this->validate($request,[
             'email' => 'required',
@@ -65,6 +69,10 @@ class AuthController extends Controller
 
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
     public function logout(Request $request)
     {
 

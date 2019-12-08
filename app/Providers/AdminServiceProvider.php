@@ -24,8 +24,6 @@ class AdminServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app->setLocale(config('admin.locale'));
-
         $this->loadViewsFrom(resource_path('views/admin'), 'admin');
-
     }
 }

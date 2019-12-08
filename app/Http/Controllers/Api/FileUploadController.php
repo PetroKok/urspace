@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\FileTrait;
 use App\Http\Requests\FileStoreRequest;
 use App\Models\File;
 use App\Repositories\App\File\FileRepository;
@@ -11,6 +12,8 @@ use Illuminate\Support\Facades\Storage;
 
 class FileUploadController extends Controller
 {
+    use FileTrait; // kinda extends
+
     protected $model;
 
     public function __construct(File $file)
@@ -33,39 +36,25 @@ class FileUploadController extends Controller
     {
         $data = $request->all();
         foreach ($data['files'] as $id) {
-            $file = File::findOrFail($id);
-            if(Storage::exists($file->link)){
-                try{
-                    Storage::delete($file->link);
-                    $file->delete();
-                }catch(\Exception $e){
-                    return abort(500);
-                }
-            }else{
-                $file->delete();
+            if(!$this->destroy($id)){
+                return response(['status' => 500, 'message' => 'Error!']);
             }
         }
-        return response(['status' => 200, 'message' => 'Deleted']);
+        return response(['status' => 200, 'message' => 'Deleted all files']);
     }
 
     public function delete($id)
     {
-        $file = File::findOrFail($id);
-        if (Storage::exists($file->link)) {
-            try {
-                Storage::delete($file->link);
-                $file->delete();
-                return response(['status' => 200, 'message' => 'Deleted']);
-            } catch (\Exception $e) {
-                return abort(500);
-            }
-        } else {
-            $file->delete();
+        if($this->destroy($id)){
             return response(['status' => 200, 'message' => 'Deleted']);
         }
+        return response(['status' => 500, 'message' => 'Error!']);
     }
 
-    public function accessed(){
+
+
+    public function accessed()
+    {
         return response(['status' => 200, 'data' => $this->model->accessed_files()], 200);
     }
 }
