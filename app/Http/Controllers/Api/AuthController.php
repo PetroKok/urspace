@@ -19,11 +19,6 @@ class AuthController extends Controller
      */
     public function register(RegisterRequest $request)
     {
-
-        if ($validator->fails()) {
-            return response(['errors' => $validator->errors()->all()], 422);
-        }
-
         $request['password'] = Hash::make($request['password']);
         $user = User::create($request->toArray());
         $user->createAccessAPI()->create([
@@ -31,9 +26,13 @@ class AuthController extends Controller
             'revoked' => '0',
         ]);
 
-        $token = $user->createToken('Laravel Password Grant Client')->accessToken;
+
+
+        $token = $user->createToken('Laravel Password Grant Client')->accessToken; // auth token
         $response = ['token' => $token, "user" => $user];
-        Cookie::queue(Cookie::make('token', $token, 60*24*30));
+        Cookie::queue(Cookie::make('token', $token, 60*24*30)); // set token to cookie
+
+
 
         return response($response, 200);
     }
@@ -45,11 +44,6 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request)
     {
-        $this->validate($request,[
-            'email' => 'required',
-            'password' => 'required',
-        ]);
-
         $user = User::where('email', $request->email)->first();
 
         if ($user) {

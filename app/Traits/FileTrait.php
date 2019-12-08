@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App;
+namespace App\Traits;
 
 
 use App\Models\File;
@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 
 trait FileTrait
 {
-    private function destroy($id)
+    public function destroy($id)
     {
         $file = File::findOrFail($id);
         if (Storage::exists($file->link)) {
@@ -20,5 +20,14 @@ trait FileTrait
             } catch (\Exception $e) {}
         }
         return false;
+    }
+
+    public function destroyMultiple($data){
+        foreach ($data as $id) {
+            if(!$this->destroy($id)){
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\FileTrait;
+
+
 use App\Http\Requests\FileStoreRequest;
 use App\Models\File;
 use App\Repositories\App\File\FileRepository;
 use App\Http\Controllers\Controller;
+use App\Traits\FileTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -35,11 +37,11 @@ class FileUploadController extends Controller
     public function deleteFiles(Request $request)
     {
         $data = $request->all();
-        foreach ($data['files'] as $id) {
-            if(!$this->destroy($id)){
-                return response(['status' => 500, 'message' => 'Error!']);
-            }
+
+        if(!$this->destroyMultiple($data['files'])){
+            return response(['status' => 500, 'message' => 'Error!']);
         }
+
         return response(['status' => 200, 'message' => 'Deleted all files']);
     }
 
