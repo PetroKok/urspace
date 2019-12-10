@@ -17,6 +17,7 @@ import {AccessButton} from "../../../layouts/AccessButton";
 
 // sdf
 import 'react-notifications/lib/notifications.css';
+import auth_refresh from "../../../helpers/auth_refresh";
 
 export default class FileLoader extends React.Component {
 
@@ -102,7 +103,9 @@ export default class FileLoader extends React.Component {
             .then(res => {
                 NotificationManager.success('Success message', res.data.message, 7000);
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                auth_refresh(err);
+            })
     }
 
     sendEmailFiles(email) {
@@ -127,7 +130,9 @@ export default class FileLoader extends React.Component {
                 this.setState({processing: false, checked_items: []});
                 NotificationManager.success('Success message', res.data.message, 7000);
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                auth_refresh(err);
+            })
     }
 
     downloadFile(file) {
@@ -173,6 +178,7 @@ export default class FileLoader extends React.Component {
                 })
                 .catch(err => {
                     console.log(err);
+                    auth_refresh(err);
                     this.setState({processing: false});
                 })
         } else {
@@ -187,6 +193,7 @@ export default class FileLoader extends React.Component {
                 })
                 .catch(err => {
                     console.log(err);
+                    auth_refresh(err);
                     this.setState({processing: false});
                 })
         }
@@ -233,6 +240,7 @@ export default class FileLoader extends React.Component {
                 .catch(err => {
                     console.log('error in catch');
                     console.log(err);
+                    auth_refresh(err);
                     this.setState({
                         btn: false,
                         processing: false,

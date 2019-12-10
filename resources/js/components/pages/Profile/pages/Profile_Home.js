@@ -2,10 +2,13 @@ import React from 'react';
 import axios from "../../../common/axios";
 import api_urls from "../../../helpers/api_urls";
 import FileLoader from '../fileLoader/FileLoader'
-// sdf
-export default class Profile_Home extends React.Component{
+import routes from "../../../helpers/routes_urls";
+import auth_refresh from "../../../helpers/auth_refresh";
 
-    constructor(props){
+// sdf
+export default class Profile_Home extends React.Component {
+
+    constructor(props) {
         super(props);
         this.state = {
             items: [],
@@ -13,16 +16,19 @@ export default class Profile_Home extends React.Component{
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         axios().post(api_urls.FILES)
             .then(res => {
                 this.setState({items: res.data})
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                    auth_refresh(err);
+                }
+            )
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <FileLoader files={this.state.items} title={this.state.title}/>
         );
     }

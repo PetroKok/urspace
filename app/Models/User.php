@@ -60,6 +60,11 @@ class User extends Authenticatable
     public function file(){
         return $this->belongsToMany(File::class)->wherePivot('time_to', '>=', Carbon::now())->withPivot('time_to');
     }
+
+    public function refreshes(){
+        return $this->hasMany(Refresh::class);
+    }
+
     /** END RELATIONSHIP **/
 
 

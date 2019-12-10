@@ -1,5 +1,6 @@
 <?php
 
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -14,16 +15,17 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::get('/refresh/{refresh}', 'AuthController@refresh');
 
 Route::get('/download/{slug}', 'DownloadController@index');
 
-Route::group(['middleware' => ['json.response']], function () {
+Route::group(['middleware' => ['api-header','json.response']], function () {
 
     // PUBLIC ROUTES
     Route::post('/user/login', 'AuthController@login')->name('login.api');
     Route::post('/user/register', 'AuthController@register')->name('register.api');
 
-    Route::get('/files/{slug}','ImageController@index');
+//    Route::get('/files/{slug}','ImageController@index');
 
     // PRIVATE ROUTES
     Route::middleware('auth:api')->group(function () {

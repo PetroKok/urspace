@@ -4,6 +4,7 @@ import axios from '../../../common/axios'
 import api from '../../../helpers/api_urls'
 import routes from '../../../helpers/routes_urls'
 import ModalLoader from "../../../common/ModalLoader";
+import auth_refresh from "../../../helpers/auth_refresh";
 
 export default class Nav extends React.Component {
 
@@ -25,7 +26,9 @@ export default class Nav extends React.Component {
                        window.location = routes.LOGIN;
                    }
                })
-               .catch(err => alert(err))
+               .catch(err => {
+                   auth_refresh(err);
+               })
        }
     }
 

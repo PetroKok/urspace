@@ -10,6 +10,7 @@ import {AuthRoute} from "../../common/AuthRoute";
 import {Loader} from "../../common/Loader";
 import Modal from "../../common/Modal";
 import {NotificationContainer, NotificationManager} from "react-notifications";
+import auth_refresh from "../../helpers/auth_refresh";
 
 export default class Auth extends Component {
 
@@ -43,6 +44,7 @@ export default class Auth extends Component {
             .then(res => {
                 if (!res.data.error) {
                     localStorage.setItem('token', res.data.token);
+                    localStorage.setItem('refresh', res.data.refresh);
                     window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.token;
                     window.location = routes.PROFILE;
                     this.setState({processing: false});
@@ -57,6 +59,7 @@ export default class Auth extends Component {
                     errors: err.response.data.errors || err.response.data.message
                 });
                 console.log(typeof this.state.errors)
+                auth_refresh(err);
             });
     }
 
@@ -80,6 +83,8 @@ export default class Auth extends Component {
                     showModal: true,
                     errors: err.response.data.errors || err.response.data.message
                 });
+                auth_refresh(err);
+
             });
     }
 

@@ -2,6 +2,7 @@ import React from 'react';
 import axios from "../../../common/axios";
 import api_urls from "../../../helpers/api_urls";
 import FileLoader from '../fileLoader/FileLoader'
+import auth_refresh from "../../../helpers/auth_refresh";
 // sdf
 export default class Profile_Access_Files extends React.Component{
 
@@ -21,7 +22,10 @@ export default class Profile_Access_Files extends React.Component{
                     console.log(this.state.items);
                 })
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.log(123123)
+                auth_refresh(err);
+            })
     }
 
     render(){

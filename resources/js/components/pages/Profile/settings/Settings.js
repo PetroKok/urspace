@@ -6,6 +6,7 @@ import {Loader} from "../../../common/Loader";
 import ModalLoader from "../../../common/ModalLoader";
 import Modal from "../../../common/Modal";
 import 'react-notifications/lib/notifications.css';
+import auth_refresh from "../../../helpers/auth_refresh";
 
 class Settings extends Component {
 
@@ -27,6 +28,7 @@ class Settings extends Component {
             })
             .catch(err => {
                 alert(err);
+                auth_refresh(err);
                 console.log(err)
             })
     }
@@ -56,6 +58,7 @@ class Settings extends Component {
             })
             .catch(err => {
                 console.log(err);
+                auth_refresh(err);
                 this.setState({processing: false});
             })
     }

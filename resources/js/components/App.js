@@ -15,6 +15,11 @@ export default class App extends Component {
         //     .then(data => console.log(data));
     }
 
+    componentDidMount() {
+        // axios.post('/api/user')
+        //     .then(data => console.log(data));
+    }
+
     render() {
         return (
             <BrowserRouter>
