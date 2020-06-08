@@ -8,6 +8,5 @@ export const AddFilesButton = props => {
                    multiple={true}
                    onChange={e => props.getFiles(e)} style={{display: 'none'}}/>
         </label>
-
     );
 };

@@ -18,7 +18,6 @@ class Home extends Component {
                 <div className="middle">
                     <h1>COMING SOON</h1>
                     <hr id="hr"/>
-                    <p>35 days left</p>
                 </div>
                 <div className="bottomleft">
                     <p>Some text</p>

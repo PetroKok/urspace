@@ -35,6 +35,7 @@ export default class FileViewComponent extends Component {
                 </span>
                 <i className={`fas  custom-fa ${this.props.icon}`}/>
                 <a href="#" onClick={this.showFile} className="ml-3">{file.name}</a>
+                <a href="#" onClick={this.showFile} className="ml-3">{`${((file.size / 1024) / 1024).toFixed(2)} MB`}</a>
             </span>
         );
     }

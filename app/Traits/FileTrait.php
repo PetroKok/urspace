@@ -12,19 +12,22 @@ trait FileTrait
     public function destroy($id)
     {
         $file = File::findOrFail($id);
-        if (Storage::exists($file->link)) {
-            try {
+        try {
+            if (Storage::exists($file->link)) {
                 Storage::delete($file->link);
-                $file->delete();
-                return true;
-            } catch (\Exception $e) {}
+            }
+
+            $file->delete();
+            return true;
+        } catch (\Exception $e) {
         }
         return false;
     }
 
-    public function destroyMultiple($data){
+    public function destroyMultiple($data)
+    {
         foreach ($data as $id) {
-            if(!$this->destroy($id)){
+            if (!$this->destroy($id)) {
                 return false;
             }
         }

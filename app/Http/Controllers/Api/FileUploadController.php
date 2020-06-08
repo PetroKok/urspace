@@ -10,7 +10,6 @@ use App\Repositories\App\File\FileRepository;
 use App\Http\Controllers\Controller;
 use App\Traits\FileTrait;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class FileUploadController extends Controller
 {

@@ -43,7 +43,7 @@ export default class PreviewFile extends React.Component {
         let preview = undefined;
         let defaultPreview = <a href={`${file.src}`} className="ml-3">{file.name}</a>;
 
-
+        console.log(file.type.includes('image'), file.type);
         if (file.type.includes('image')) {
             return (
                 <span key={file.id} className="image-prev">
@@ -55,6 +55,7 @@ export default class PreviewFile extends React.Component {
                         height="25"
                     />
                     <a href="#" className="ml-3">{file.name}</a>
+                    <a href="#" className="ml-3">{`${((file.size / 1024) / 1024).toFixed(2)} MB`}</a>
                 </span>
             );
         }
@@ -68,7 +69,8 @@ export default class PreviewFile extends React.Component {
         return pictureTag === undefined ? (
             <span>
                 <i className="fas fa-file custom-fa"/>
-                <a href="#" className="ml-3">{file.name}</a>
+                <a href="#" className="ml-3">{file.name} </a>
+                <a href="#" className="ml-3">{`${((file.size / 1024) / 1024).toFixed(2)} MB`}</a>
             </span>
         ) : pictureTag;
 

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class File extends Model
 {
-    protected $fillable = ["name", "type", "src", "size", "user_id"];
+    protected $fillable = ["name", "type", "src", "size", "user_id", "compressed"];
 
     protected $appends = ['link'];
 
